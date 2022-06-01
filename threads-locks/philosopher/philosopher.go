@@ -33,26 +33,34 @@ func (chopstick *Chopstick) getId() int {
 
 type Philosopher struct {
 	name    string
-	left    *Chopstick
-	right   *Chopstick
+	first   *Chopstick
+	second  *Chopstick
 	randNum int
 }
 
 func NewPhilosopher(name string, left *Chopstick, right *Chopstick) *Philosopher {
+	var first, second *Chopstick
+	if left.getId() < right.getId() {
+		first = left
+		second = right
+	} else {
+		first = right
+		second = left
+	}
 	return &Philosopher{
-		name, left, right, rand.Intn(500),
+		name, first, second, rand.Intn(500),
 	}
 }
 
 func (philosopher *Philosopher) useChopstick() {
-	philosopher.left.grab()
-	fmt.Println(philosopher.name, "grabs", philosopher.left.getId())
-	philosopher.right.grab()
-	fmt.Println(philosopher.name, "grabs", philosopher.right.getId())
-	philosopher.right.put()
-	fmt.Println(philosopher.name, "puts", philosopher.right.getId())
-	philosopher.left.put()
-	fmt.Println(philosopher.name, "puts", philosopher.left.getId())
+	philosopher.first.grab()
+	fmt.Println(philosopher.name, "grabs", philosopher.first.getId())
+	philosopher.second.grab()
+	fmt.Println(philosopher.name, "grabs", philosopher.second.getId())
+	philosopher.second.put()
+	fmt.Println(philosopher.name, "puts", philosopher.second.getId())
+	philosopher.first.put()
+	fmt.Println(philosopher.name, "puts", philosopher.first.getId())
 }
 
 func main() {
