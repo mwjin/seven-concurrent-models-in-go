@@ -6,6 +6,7 @@ import (
 )
 
 var wg sync.WaitGroup
+var mutex sync.Mutex
 
 type Counter struct {
 	count int
@@ -16,6 +17,8 @@ func NewCounter(count int) *Counter {
 }
 
 func (counter *Counter) increment() {
+	mutex.Lock()
+	defer mutex.Unlock()
 	counter.count++
 }
 
